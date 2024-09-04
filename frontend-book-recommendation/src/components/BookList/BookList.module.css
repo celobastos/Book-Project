@@ -1,0 +1,22 @@
+.bookList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+  
+  .bookItem {
+    border: 1px solid #ccc;
+    padding: 16px;
+    width: 300px;
+  }
+  
+  .bookImage {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .bookDetails {
+    text-align: left;
+  }
+  
