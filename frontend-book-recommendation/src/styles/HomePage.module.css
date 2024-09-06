@@ -6,16 +6,20 @@
 
 /* Header Styles */
 .header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
   padding: 2rem;
-  background-color: #f4f4f4;
+  margin-bottom: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  width: 100vw;
 }
 
 .headerContent {
-  text-align: center;
-  max-width: 600px;
+  text-align: left; 
+  max-width: 50%; 
+  padding-right: 5rem;
 }
 
 .header h1 {
@@ -38,10 +42,11 @@
 }
 
 .imagePlaceholder {
-  width: 100%;
-  height: 200px;
+  width: 30%; 
+  height: 300px;
   background-color: #e0e0e0;
-  margin-top: 1.5rem;
+  border-radius: 10px;
+  margin-right: 5rem;
 }
 
 /* Search Section Styles */
@@ -59,47 +64,59 @@
 .recentlyAdded {
   margin-top: 2rem;
   padding: 2rem;
+  align-content: flex-end;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
 }
 
 .recentlyAdded h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
+/* Books Grid and Book Card Styles */
 .booksGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 1.5rem;
+  display: grid;  
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjusted for fixed card width */
+  gap: 2rem;
+  padding-left: 10rem;
 }
 
 .bookCard {
+  width: 10rem; /* Fixed width */
+  height: 14rem; /* Fixed height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 1rem;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out; /* Smooth transition on hover */
+}
+
+.bookCard:hover {
+  transform: scale(1.05); /* Slightly enlarge the card on hover */
+}
+
+.bookTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .bookIcon {
   width: 100px;
   height: 100px;
   margin-bottom: 1rem;
-}
-
-.bookActions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-
-.bookActions button {
-  background-color: #000;
-  color: #fff;
-  padding: 0.5rem;
-  border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  border-radius: 5px;
+  object-fit: cover; /* Ensure the book image is resized correctly */
 }
 
 /* Google Book Result Styles */
@@ -118,6 +135,17 @@
 
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
+  .header {
+    flex-direction: column; 
+    width:120vh;
+  }
+
+  .headerContent {
+    max-width: 100%; 
+    padding-right: 0;
+    text-align: center;
+  }
+
   .header h1 {
     font-size: 2rem;
   }
@@ -126,14 +154,30 @@
     font-size: 1rem;
   }
 
+  .imagePlaceholder {
+    display: none;
+  }
+  .recentlyAdded{
+    align-items: end;
+    text-align: end;
+    padding-left: 10rem;
+  }
+
   .booksGrid {
     grid-template-columns: 1fr 1fr;
+    padding-left: 10rem; /* Adjust padding for smaller screens */
   }
 }
 
 @media (max-width: 480px) {
   .booksGrid {
     grid-template-columns: 1fr;
+    padding-left: 0; /* Remove padding on very small screens */
+  }
+
+  .bookCard {
+    width: 180px; /* Adjust width for smaller screens */
+    height: 250px; /* Adjust height for smaller screens */
   }
 
   .bookIcon {

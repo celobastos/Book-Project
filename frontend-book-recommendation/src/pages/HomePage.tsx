@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar/SearchBar';
 import GoogleSearchBar from '../components/SearchBar/GoogleSearchBar';
 import styles from '../styles/HomePage.module.css';
 import NavBar from '../components/NavBar/NavBar';
+import { Link } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
@@ -69,7 +70,8 @@ const HomePage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-       <NavBar />
+      <NavBar />
+
       <header className={styles.header}>
         <div className={styles.headerContent}>
           <h1>Welcome to Your Book Archive</h1>
@@ -79,43 +81,40 @@ const HomePage: React.FC = () => {
         <div className={styles.imagePlaceholder}></div>
       </header>
 
-      {/* Search Section */}
+        <section className={styles.recentlyAdded}>
+          <h2>Recently Added Books</h2>
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : (
+            <div className={styles.booksGrid}>
+              {books.slice(0, 5).map(book => (
+                <div key={book.id}>
+                  {/* Display the title above the card */}
+                  <h3 className={styles.bookTitle}>{book.title}</h3>
+                  {/* Make the whole card clickable */}
+                  <Link to={`/books/${book.id}`} className={styles.bookCard}>
+                    <img src="/path-to-book-cover-icon.png" alt={book.title} className={styles.bookIcon} />
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
       <section className={styles.searchSection}>
         <h2>Search Your Collection</h2>
         <SearchBar onSearch={handleSearch} />
       </section>
 
-      {/* Google Books Search Section */}
+
       <section className={styles.googleBooksSearch}>
         <h2>Google Books Search</h2>
         <GoogleSearchBar onResults={handleGoogleSearchResults} />
       </section>
 
-      {/* Recently Added Books Section */}
-      <section className={styles.recentlyAdded}>
-        <h2>Recently Added Books</h2>
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : (
-          <div className={styles.booksGrid}>
-            {books.map(book => (
-              <div key={book.id} className={styles.bookCard}>
-                <img src="/path-to-book-cover-icon.png" alt={book.title} className={styles.bookIcon} />
-                <h3>{book.title}</h3>
-                <p>{book.author}</p>
-                <div className={styles.bookActions}>
-                  <button onClick={() => handleUpdateBook(book.id)}>Update</button>
-                  <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
 
-      {/* Google Book Result */}
       <section className={styles.googleBookResult}>
         <h2>Google Book Result</h2>
         {googleBook ? (

@@ -1,22 +1,24 @@
-
+/* Container for the entire navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: white;
-    padding: 1rem 2rem; 
+    padding: 1rem 2rem;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100vw;
     box-sizing: border-box;
   }
   
+  /* Ensure no horizontal scrollbars */
   body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
   }
   
+  /* Logo section */
   .logo {
     display: flex;
     align-items: center;
@@ -29,18 +31,19 @@
     margin-right: 1rem;
   }
   
-  .logo h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #000;
+  /* Right container for nav links and search bar */
+  .navRight {
+    display: flex;
+    align-items: center;
+    gap: 2rem; /* Space between nav links and search bar */
   }
   
-
+  /* Navigation links styling */
   .navLinks {
     list-style: none;
     display: flex;
     gap: 1.5rem;
-    padding-right: 2rem; 
+    
   }
   
   .navLinks li {
@@ -57,7 +60,7 @@
     text-decoration: underline;
   }
   
-
+  /* Search bar styling */
   .searchContainer {
     display: flex;
     align-items: center;
@@ -83,4 +86,3 @@
     font-size: 1rem;
     color: #000;
   }
-  
