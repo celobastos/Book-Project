@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './SearchBar.module.css'; // Use your existing styles or create new ones
+import styles from './SearchBar.module.css';
 
 interface GoogleSearchBarProps {
   onResults: (result: any) => void;

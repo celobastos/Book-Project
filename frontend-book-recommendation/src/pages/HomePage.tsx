@@ -10,11 +10,10 @@ const HomePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to fetch all books or filtered books
   const fetchBooks = useCallback(async (searchQuery: string = '') => {
     try {
       setLoading(true);
-      const data = await getBooks(searchQuery); // Pass the search query to getBooks
+      const data = await getBooks(searchQuery);
       setBooks(data);
     } catch (err) {
       setError('Failed to fetch books');
@@ -23,17 +22,18 @@ const HomePage: React.FC = () => {
     }
   }, []);
 
-  // Function to handle search from the SearchBar
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks]);
+
   const handleSearch = (searchQuery: string) => {
-    fetchBooks(searchQuery); // Fetch books with the search query
+    fetchBooks(searchQuery); 
   };
 
-  // Function to handle search results from GoogleSearchBar
   const handleGoogleSearchResults = (result: any) => {
-    setGoogleBook(result); // Set state for Google Books search result
+    setGoogleBook(result); 
   };
 
-  // Function to create a new book in local storage
   const handleCreateBook = async () => {
     const newBook = {
       title: 'New Book',
@@ -47,7 +47,6 @@ const HomePage: React.FC = () => {
     }
   };
 
-  // Function to update a book in local storage
   const handleUpdateBook = async (bookId: string) => {
     const updatedData = { title: 'Updated Book Title' };
     try {
@@ -58,7 +57,6 @@ const HomePage: React.FC = () => {
     }
   };
 
-  // Function to delete a book from local storage
   const handleDeleteBook = async (bookId: string) => {
     try {
       await deleteBook(bookId);
@@ -68,58 +66,71 @@ const HomePage: React.FC = () => {
     }
   };
 
-  // Fetch all books when the component mounts
-  useEffect(() => {
-    fetchBooks(); // This will call fetchBooks with no arguments, hence fetching all books
-  }, [fetchBooks]);
-
   return (
     <div className={styles.container}>
-      <h1>Book Repository</h1>
-      
-      {/* Search bar for local books */}
-      <SearchBar onSearch={handleSearch} />
-      
-      <h2>Google Books Search</h2>
-      {/* Search bar for Google Books */}
-      <GoogleSearchBar onResults={handleGoogleSearchResults} />
-      
-      {/* Display loading, error, and book list */}
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <div>
-          {books.map(book => (
-            <div key={book.id}>
-              <h2>{book.title}</h2>
-              <p>{book.author}</p>
-              <button onClick={() => handleUpdateBook(book.id)}>Update</button>
-              <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
-            </div>
-          ))}
+      {/* Header Section */}
+      <header className={styles.header}>
+        <div className={styles.headerContent}>
+          <h1>Welcome to Your Book Archive</h1>
+          <p>Store and organize all your books in one place</p>
+          <button onClick={handleCreateBook} className={styles.addButton}>Add New Book</button>
         </div>
-      )}
+        <div className={styles.imagePlaceholder}></div>
+      </header>
 
-      {/* Button to create a new book */}
-      <button onClick={handleCreateBook}>Add New Book</button>
+      {/* Search Section */}
+      <section className={styles.searchSection}>
+        <h2>Search Your Collection</h2>
+        <SearchBar onSearch={handleSearch} />
+      </section>
 
-      {/* Display Google Book Result */}
-      <h2>Google Book Result</h2>
-      {googleBook ? (
-        <div>
-          <h2>{googleBook.title}</h2>
-          <p>Author: {googleBook.author}</p>
-          <p>Description: {googleBook.description}</p>
-          <p>Average Rating: {googleBook.averageRating}</p>
-          <p>Ratings Count: {googleBook.ratingsCount}</p>
-          <p>Price: {googleBook.price}</p>
-          <img src={googleBook.image} alt={googleBook.title} />
-        </div>
-      ) : (
-        <p>No Google Book result yet.</p>
-      )}
+      {/* Google Books Search Section */}
+      <section className={styles.googleBooksSearch}>
+        <h2>Google Books Search</h2>
+        <GoogleSearchBar onResults={handleGoogleSearchResults} />
+      </section>
+
+      {/* Recently Added Books Section */}
+      <section className={styles.recentlyAdded}>
+        <h2>Recently Added Books</h2>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <div className={styles.booksGrid}>
+            {books.map(book => (
+              <div key={book.id} className={styles.bookCard}>
+                <img src="/path-to-book-cover-icon.png" alt={book.title} className={styles.bookIcon} />
+                <h3>{book.title}</h3>
+                <p>{book.author}</p>
+                <div className={styles.bookActions}>
+                  <button onClick={() => handleUpdateBook(book.id)}>Update</button>
+                  <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Google Book Result */}
+      <section className={styles.googleBookResult}>
+        <h2>Google Book Result</h2>
+        {googleBook ? (
+          <div className={styles.googleBookCard}>
+            <img src={googleBook.image} alt={googleBook.title} />
+            <h3>{googleBook.title}</h3>
+            <p>Author: {googleBook.author}</p>
+            <p>Description: {googleBook.description}</p>
+            <p>Average Rating: {googleBook.averageRating}</p>
+            <p>Ratings Count: {googleBook.ratingsCount}</p>
+            <p>Price: {googleBook.price}</p>
+          </div>
+        ) : (
+          <p>No Google Book result yet.</p>
+        )}
+      </section>
     </div>
   );
 };

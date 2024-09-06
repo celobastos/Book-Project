@@ -1,25 +1,144 @@
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header Styles */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f4f4f4;
+}
+
+.headerContent {
+  text-align: center;
+  max-width: 600px;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.header p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.addButton {
+  background-color: #000;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 200px;
+  background-color: #e0e0e0;
+  margin-top: 1.5rem;
+}
+
+/* Search Section Styles */
+.searchSection, .googleBooksSearch {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.searchSection h2, .googleBooksSearch h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+/* Recently Added Books Section */
+.recentlyAdded {
+  margin-top: 2rem;
+  padding: 2rem;
+}
+
+.recentlyAdded h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.booksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.bookCard {
+  text-align: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bookIcon {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+}
+
+.bookActions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.bookActions button {
+  background-color: #000;
+  color: #fff;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-radius: 5px;
+}
+
+/* Google Book Result Styles */
+.googleBookResult {
+  margin-top: 2rem;
+}
+
+.googleBookCard {
+  text-align: center;
+}
+
+.googleBookCard img {
+  width: 150px;
+  height: 200px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2rem;
   }
-  
-  input {
-    margin-bottom: 20px;
-    padding: 10px;
-    width: 100%;
-    max-width: 400px;
+
+  .header p {
+    font-size: 1rem;
   }
-  
-  button {
-    margin: 10px;
-    padding: 10px 20px;
+
+  .booksGrid {
+    grid-template-columns: 1fr 1fr;
   }
-  
-  div {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
+}
+
+@media (max-width: 480px) {
+  .booksGrid {
+    grid-template-columns: 1fr;
   }
-  
+
+  .bookIcon {
+    width: 80px;
+    height: 80px;
+  }
+}
