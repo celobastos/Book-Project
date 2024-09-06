@@ -1,0 +1,87 @@
+/* Add Book Section Styles */
+.addBookSection {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100vw;
+  
+}
+
+.addBookSection h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  margin-top: 9rem;
+  margin-left:13rem;
+  text-align: center;
+}
+
+.addBookText {
+  flex: 1;
+  margin-right: 2rem;
+  text-align: left;
+  font-size: 2rem;
+}
+
+.addBookForm {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-left: 10rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.formGroup input,
+.formGroup textarea {
+  width: 80%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submitButton {
+  display: block;
+  width: 40%;
+  padding: 0.75rem;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.submitButton:hover {
+  background-color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .addBookSection {
+    flex-direction: column; /* Stack elements vertically */
+    padding: 1rem;
+  }
+
+  .addBookForm {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .addBookText {
+    text-align: center;
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+}

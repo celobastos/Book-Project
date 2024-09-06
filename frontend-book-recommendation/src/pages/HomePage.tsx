@@ -5,6 +5,8 @@ import GoogleSearchBar from '../components/SearchBar/GoogleSearchBar';
 import styles from '../styles/HomePage.module.css';
 import NavBar from '../components/NavBar/NavBar';
 import { Link } from 'react-router-dom';
+import AddBookForm from '../components/BookForm/AddBookForm';
+import FunctionalitiesSection from '../components/Functionalities/FunctionalitiesSection';
 
 const HomePage: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
@@ -80,7 +82,7 @@ const HomePage: React.FC = () => {
         </div>
         <div className={styles.imagePlaceholder}></div>
       </header>
-
+      
         <section className={styles.recentlyAdded}>
           <h2>Recently Added Books</h2>
           {loading ? (
@@ -91,9 +93,9 @@ const HomePage: React.FC = () => {
             <div className={styles.booksGrid}>
               {books.slice(0, 5).map(book => (
                 <div key={book.id}>
-                  {/* Display the title above the card */}
+                
                   <h3 className={styles.bookTitle}>{book.title}</h3>
-                  {/* Make the whole card clickable */}
+              
                   <Link to={`/books/${book.id}`} className={styles.bookCard}>
                     <img src="/path-to-book-cover-icon.png" alt={book.title} className={styles.bookIcon} />
                   </Link>
@@ -103,34 +105,10 @@ const HomePage: React.FC = () => {
           )}
         </section>
 
-      <section className={styles.searchSection}>
-        <h2>Search Your Collection</h2>
-        <SearchBar onSearch={handleSearch} />
-      </section>
-
-
-      <section className={styles.googleBooksSearch}>
-        <h2>Google Books Search</h2>
-        <GoogleSearchBar onResults={handleGoogleSearchResults} />
-      </section>
-
-
-      <section className={styles.googleBookResult}>
-        <h2>Google Book Result</h2>
-        {googleBook ? (
-          <div className={styles.googleBookCard}>
-            <img src={googleBook.image} alt={googleBook.title} />
-            <h3>{googleBook.title}</h3>
-            <p>Author: {googleBook.author}</p>
-            <p>Description: {googleBook.description}</p>
-            <p>Average Rating: {googleBook.averageRating}</p>
-            <p>Ratings Count: {googleBook.ratingsCount}</p>
-            <p>Price: {googleBook.price}</p>
-          </div>
-        ) : (
-          <p>No Google Book result yet.</p>
-        )}
-      </section>
+        <AddBookForm onSubmit={handleCreateBook} />
+        
+      <FunctionalitiesSection />
+      
     </div>
   );
 };

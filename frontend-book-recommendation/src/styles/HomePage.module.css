@@ -4,7 +4,6 @@
   padding-bottom: 1rem;
 }
 
-/* Header Styles */
 .header {
   display: flex; 
   justify-content: center; 
@@ -49,7 +48,6 @@
   margin-right: 5rem;
 }
 
-/* Search Section Styles */
 .searchSection, .googleBooksSearch {
   margin-top: 2rem;
   text-align: center;
@@ -60,7 +58,6 @@
   margin-bottom: 1rem;
 }
 
-/* Recently Added Books Section */
 .recentlyAdded {
   margin-top: 2rem;
   padding: 2rem;
@@ -77,17 +74,16 @@
   text-align: center;
 }
 
-/* Books Grid and Book Card Styles */
 .booksGrid {
   display: grid;  
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjusted for fixed card width */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
   gap: 2rem;
   padding-left: 10rem;
 }
 
 .bookCard {
-  width: 10rem; /* Fixed width */
-  height: 14rem; /* Fixed height */
+  width: 10rem; 
+  height: 14rem; 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -98,11 +94,11 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: transform 0.2s ease-in-out; /* Smooth transition on hover */
+  transition: transform 0.2s ease-in-out; 
 }
 
 .bookCard:hover {
-  transform: scale(1.05); /* Slightly enlarge the card on hover */
+  transform: scale(1.05); 
 }
 
 .bookTitle {
@@ -116,10 +112,9 @@
   width: 100px;
   height: 100px;
   margin-bottom: 1rem;
-  object-fit: cover; /* Ensure the book image is resized correctly */
+  object-fit: cover; 
 }
 
-/* Google Book Result Styles */
 .googleBookResult {
   margin-top: 2rem;
 }
@@ -133,7 +128,7 @@
   height: 200px;
 }
 
-/* Media queries for responsiveness */
+
 @media (max-width: 768px) {
   .header {
     flex-direction: column; 
@@ -165,19 +160,19 @@
 
   .booksGrid {
     grid-template-columns: 1fr 1fr;
-    padding-left: 10rem; /* Adjust padding for smaller screens */
+    padding-left: 10rem; 
   }
 }
 
 @media (max-width: 480px) {
   .booksGrid {
     grid-template-columns: 1fr;
-    padding-left: 0; /* Remove padding on very small screens */
+    padding-left: 0;
   }
 
   .bookCard {
-    width: 180px; /* Adjust width for smaller screens */
-    height: 250px; /* Adjust height for smaller screens */
+    width: 180px; 
+    height: 250px;
   }
 
   .bookIcon {
