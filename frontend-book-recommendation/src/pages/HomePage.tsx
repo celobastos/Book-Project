@@ -3,6 +3,7 @@ import { getBooks, createBook, updateBook, deleteBook } from '../services/booksS
 import SearchBar from '../components/SearchBar/SearchBar';
 import GoogleSearchBar from '../components/SearchBar/GoogleSearchBar';
 import styles from '../styles/HomePage.module.css';
+import NavBar from '../components/NavBar/NavBar';
 
 const HomePage: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
@@ -68,7 +69,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      {/* Header Section */}
+       <NavBar />
       <header className={styles.header}>
         <div className={styles.headerContent}>
           <h1>Welcome to Your Book Archive</h1>
