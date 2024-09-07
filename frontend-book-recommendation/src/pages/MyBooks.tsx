@@ -3,6 +3,7 @@ import { getBooks } from '../services/booksService';
 import NavBar from '../components/NavBar/NavBar';
 import { Link } from 'react-router-dom';
 import styles from '../styles/MyBooks.module.css';
+import noDataImage from '../assets/noData.png';
 
 const MyBooks: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
@@ -41,7 +42,7 @@ const MyBooks: React.FC = () => {
               <h3 className={styles.bookTitle}>{book.title}</h3>
               <Link to={`/books/${book.id}`} className={styles.bookCard}>
                 <img 
-                  src={book.coverImage ? book.coverImage : '/path-to-book-cover-icon.png'} 
+                  src={book.coverImage ? book.coverImage : noDataImage} 
                   alt={book.title} 
                   className={styles.bookIcon} 
                 />
