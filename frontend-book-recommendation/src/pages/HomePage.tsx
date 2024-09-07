@@ -1,22 +1,20 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { getBooks, createBook, updateBook, deleteBook } from '../services/booksService';
-import SearchBar from '../components/SearchBar/SearchBar';
-import GoogleSearchBar from '../components/SearchBar/GoogleSearchBar';
-import styles from '../styles/HomePage.module.css';
 import NavBar from '../components/NavBar/NavBar';
-import { Link } from 'react-router-dom';
 import AddBookForm from '../components/BookForm/AddBookForm';
 import FunctionalitiesSection from '../components/Functionalities/FunctionalitiesSection';
+import BookDetailModal from '../components/Modal/BookDetailModal';
+import styles from '../styles/HomePage.module.css';
 
 const HomePage: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
-  const [googleBook, setGoogleBook] = useState<any | null>(null);
+  const [selectedBook, setSelectedBook] = useState<any | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const fetchBooks = useCallback(async (searchQuery: string = '') => {
     try {
-      setLoading(true);
+      setLoading(true);   
       const data = await getBooks(searchQuery);
       setBooks(data);
     } catch (err) {
@@ -30,39 +28,52 @@ const HomePage: React.FC = () => {
     fetchBooks();
   }, [fetchBooks]);
 
-  const handleSearch = (searchQuery: string) => {
-    fetchBooks(searchQuery); 
-  };
-
-  const handleGoogleSearchResults = (result: any) => {
-    setGoogleBook(result); 
-  };
-
   const handleCreateBook = async (bookData: { title: string; author: string; description: string }) => {
     try {
       const createdBook = await createBook(bookData);
-      setBooks((prevBooks) => [...prevBooks, createdBook]); // Add the new book to the existing list
+      setBooks((prevBooks) => [...prevBooks, createdBook]);
     } catch (err) {
       setError('Failed to create book');
     }
   };
 
-  const handleUpdateBook = async (bookId: string) => {
-    const updatedData = { title: 'Updated Book Title' };
-    try {
-      const updatedBook = await updateBook(bookId, updatedData);
-      setBooks(books.map(book => (book.id === bookId ? updatedBook : book)));
-    } catch (err) {
-      setError('Failed to update book');
+  const handleBookClick = (book: any) => {
+    setSelectedBook(book);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedBook(null);
+  };
+
+  const handleEditBook = async (updatedBook: { title: string; author: string; review: string }) => {
+    if (selectedBook) {
+      try {
+        const updatedData = {
+          title: updatedBook.title,
+          author: updatedBook.author,
+          review: updatedBook.review,
+        };
+
+        const updatedBookResponse = await updateBook(selectedBook.id, updatedData);
+
+        setBooks(books.map(book => (book.id === selectedBook.id ? updatedBookResponse : book)));
+        
+        handleCloseModal();
+      } catch (err) {
+        setError('Failed to update book');
+      }
     }
   };
 
-  const handleDeleteBook = async (bookId: string) => {
-    try {
-      await deleteBook(bookId);
-      setBooks(books.filter(book => book.id !== bookId));
-    } catch (err) {
-      setError('Failed to delete book');
+  const handleDeleteBook = async () => {
+    if (selectedBook) {
+      try {
+        await deleteBook(selectedBook.id);
+        setBooks(books.filter(book => book.id !== selectedBook.id));
+        handleCloseModal();
+      } catch (err) {
+        setError('Failed to delete book');
+      }
     }
   };
 
@@ -80,7 +91,7 @@ const HomePage: React.FC = () => {
         </div>
         <div className={styles.imagePlaceholder}></div>
       </header>
-      
+
       <section className={styles.recentlyAdded}>
         <h2>Recently Added Books</h2>
         {loading ? (
@@ -91,24 +102,29 @@ const HomePage: React.FC = () => {
           <div className={styles.booksGrid}>
             {books.slice(-5).map((book) => (
               <div key={book.id}>
-              <h3 className={styles.bookTitle}>{book.title}</h3>
-              <Link to={`/books/${book.id}`} className={styles.bookCard}>
-                <img 
-                  src={book.coverImage ? book.coverImage : '/path-to-book-cover-icon.png'} 
-                  alt={book.title} 
-                  className={styles.bookIcon} 
+                <h3 className={styles.bookTitle}>{book.title}</h3>
+                <div
+                  className={styles.bookCard}
+                  style={{ backgroundImage: `url(${book.coverImage || '/path-to-default-cover.png'})` }}
+                  onClick={() => handleBookClick(book)}
                 />
-              </Link>
-            </div>
+              </div>
             ))}
           </div>
         )}
       </section>
 
-
       <AddBookForm onSubmit={handleCreateBook} />
-
       <FunctionalitiesSection />
+
+      {selectedBook && (
+        <BookDetailModal
+          book={selectedBook}
+          onClose={handleCloseModal}
+          onEdit={handleEditBook}
+          onDelete={handleDeleteBook}
+        />
+      )}
     </div>
   );
 };
