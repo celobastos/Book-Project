@@ -1,6 +1,6 @@
 import api from './api'; // Import the Axios instance
 
-export const getBooks = async (query: string = '') => {  // Default parameter to an empty string
+export const getBooks = async (query: string = '') => { 
     const response = await fetch(`http://localhost:5000/books${query ? `/search?query=${encodeURIComponent(query)}` : ''}`);
     if (!response.ok) {
       throw new Error('Failed to fetch books');
@@ -18,6 +18,7 @@ export const createBook = async (bookData: any) => {
     throw error;
   }
 };
+
 
 export const updateBook = async (bookId: string, updatedData: any) => {
   try {
