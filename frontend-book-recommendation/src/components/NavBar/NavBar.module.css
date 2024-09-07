@@ -11,7 +11,6 @@
     box-sizing: border-box;
   }
   
-  /* Ensure no horizontal scrollbars */
   body {
     margin: 0;
     padding: 0;
@@ -74,6 +73,7 @@
     background: none;
     padding: 0.5rem;
     width: 200px;
+    
   }
   
   .searchContainer button {
@@ -84,5 +84,5 @@
   
   .searchContainer button i {
     font-size: 1rem;
-    color: #000;
+   
   }

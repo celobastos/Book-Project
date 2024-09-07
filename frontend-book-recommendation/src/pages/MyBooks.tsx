@@ -40,7 +40,11 @@ const MyBooks: React.FC = () => {
             <div key={book.id}>
               <h3 className={styles.bookTitle}>{book.title}</h3>
               <Link to={`/books/${book.id}`} className={styles.bookCard}>
-                <img src="/path-to-book-cover-icon.png" alt={book.title} className={styles.bookIcon} />
+                <img 
+                  src={book.coverImage ? book.coverImage : '/path-to-book-cover-icon.png'} 
+                  alt={book.title} 
+                  className={styles.bookIcon} 
+                />
               </Link>
             </div>
           ))}

@@ -89,17 +89,22 @@ const HomePage: React.FC = () => {
           <p>{error}</p>
         ) : (
           <div className={styles.booksGrid}>
-            {books.slice(-5).map(book => ( // This takes the last 5 books in the array
+            {books.slice(-5).map((book) => (
               <div key={book.id}>
-                <h3 className={styles.bookTitle}>{book.title}</h3>
-                <Link to={`/books/${book.id}`} className={styles.bookCard}>
-                  <img src="/path-to-book-cover-icon.png" alt={book.title} className={styles.bookIcon} />
-                </Link>
-              </div>
+              <h3 className={styles.bookTitle}>{book.title}</h3>
+              <Link to={`/books/${book.id}`} className={styles.bookCard}>
+                <img 
+                  src={book.coverImage ? book.coverImage : '/path-to-book-cover-icon.png'} 
+                  alt={book.title} 
+                  className={styles.bookIcon} 
+                />
+              </Link>
+            </div>
             ))}
           </div>
         )}
       </section>
+
 
       <AddBookForm onSubmit={handleCreateBook} />
 

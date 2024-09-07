@@ -1,0 +1,24 @@
+/* GoogleBooksPage.module.css */
+
+.container {
+    text-align: center;
+  }
+  
+  .results {
+    margin-top: 2rem;
+  }
+  
+  .resultCard {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    display: inline-block;
+    text-align: left;
+  }
+  
+  .resultCard img {
+    width: 150px;
+    height: auto;
+    display: block;
+    margin-top: 1rem;
+  }
+  
