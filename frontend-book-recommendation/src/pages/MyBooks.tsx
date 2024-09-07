@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { getBooks } from '../services/booksService';
+import { getBooks, updateBook, deleteBook } from '../services/booksService';
 import NavBar from '../components/NavBar/NavBar';
-import { Link } from 'react-router-dom';
 import styles from '../styles/MyBooks.module.css';
 import noDataImage from '../assets/noData.png';
+import BookDetailModal from '../components/Modal/BookDetailModal'; // Import the modal
 
 const MyBooks: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
+  const [selectedBook, setSelectedBook] = useState<any | null>(null); // State for the selected book
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,6 +28,50 @@ const MyBooks: React.FC = () => {
     fetchBooks();
   }, []); // Empty dependency array ensures this runs once on mount
 
+  // Handler to open the modal with the selected book
+  const handleBookClick = (book: any) => {
+    setSelectedBook(book);
+  };
+
+  // Handler to close the modal
+  const handleCloseModal = () => {
+    setSelectedBook(null);
+  };
+
+  // Handler to edit the book
+  const handleEditBook = async (updatedBook: { title: string; author: string; review: string }) => {
+    if (selectedBook) {
+      try {
+        const updatedData = {
+          title: updatedBook.title,
+          author: updatedBook.author,
+          review: updatedBook.review,
+        };
+
+        const updatedBookResponse = await updateBook(selectedBook.id, updatedData);
+
+        setBooks(books.map(book => (book.id === selectedBook.id ? updatedBookResponse : book)));
+
+        handleCloseModal();
+      } catch (err) {
+        setError('Failed to update book');
+      }
+    }
+  };
+
+  // Handler to delete the book
+  const handleDeleteBook = async () => {
+    if (selectedBook) {
+      try {
+        await deleteBook(selectedBook.id);
+        setBooks(books.filter(book => book.id !== selectedBook.id));
+        handleCloseModal();
+      } catch (err) {
+        setError('Failed to delete book');
+      }
+    }
+  };
+
   return (
     <div className={styles.container}>
       <NavBar />
@@ -40,17 +85,29 @@ const MyBooks: React.FC = () => {
           {books.map((book) => (
             <div key={book.id}>
               <h3 className={styles.bookTitle}>{book.title}</h3>
-              <Link to={`/books/${book.id}`} className={styles.bookCard}>
+              <div
+                className={styles.bookCard}
+                onClick={() => handleBookClick(book)}
+              >
                 <img 
                   src={book.coverImage ? book.coverImage : noDataImage} 
                   alt={book.title} 
                   className={styles.bookIcon} 
                 />
-              </Link>
+              </div>
             </div>
           ))}
         </div>
       </section>
+
+      {selectedBook && (
+        <BookDetailModal
+          book={selectedBook}
+          onClose={handleCloseModal}
+          onEdit={handleEditBook}
+          onDelete={handleDeleteBook}
+        />
+      )}
     </div>
   );
 };
