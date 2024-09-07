@@ -5,6 +5,7 @@ import AddBookForm from '../components/BookForm/AddBookForm';
 import FunctionalitiesSection from '../components/Functionalities/FunctionalitiesSection';
 import BookDetailModal from '../components/Modal/BookDetailModal';
 import styles from '../styles/HomePage.module.css';
+import noDataImage from '../assets/noData.png';
 
 const HomePage: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
@@ -105,9 +106,15 @@ const HomePage: React.FC = () => {
                 <h3 className={styles.bookTitle}>{book.title}</h3>
                 <div
                   className={styles.bookCard}
-                  style={{ backgroundImage: `url(${book.coverImage || '/path-to-default-cover.png'})` }}
                   onClick={() => handleBookClick(book)}
+                >
+                <img 
+                  src={book.coverImage ? book.coverImage : noDataImage} 
+                  alt={'No Data'} 
+                  className={styles.bookIcon} 
                 />
+              </div>
+
               </div>
             ))}
           </div>

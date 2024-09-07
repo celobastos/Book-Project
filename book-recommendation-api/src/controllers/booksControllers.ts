@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import db from '../database/db';
+import axios from 'axios';
 
-// Obter todos os livros
+
 export const getAllBooks = (req: Request, res: Response) => {
   db.all('SELECT * FROM books', [], (err, rows) => {
     if (err) {
@@ -12,32 +13,102 @@ export const getAllBooks = (req: Request, res: Response) => {
   });
 };
 
-// Adicionar um novo livro
-export const addBook = (req: Request, res: Response) => {
+
+const GOOGLE_BOOKS_API_URL = 'https://www.googleapis.com/books/v1/volumes?q=';
+
+export const addBook = async (req: Request, res: Response) => {
   const { title, author, review } = req.body;
-  db.run('INSERT INTO books (title, author, review) VALUES (?, ?, ?)', [title, author, review], function(err) {
-    if (err) {
-      res.status(500).send(err.message);
-    } else {
-      res.status(201).json({ id: this.lastID, title, author, review });
+
+  let coverImage: string | null = null; 
+
+  try {
+
+    const googleBooksResponse = await axios.get(`${GOOGLE_BOOKS_API_URL}${encodeURIComponent(title)}`);
+    
+    if (googleBooksResponse.data.items && googleBooksResponse.data.items.length > 0) {
+      
+      const bookData = googleBooksResponse.data.items[0];
+     
+      coverImage = bookData.volumeInfo.imageLinks?.thumbnail || null;
     }
-  });
+  } catch (error) {
+    console.error('Error fetching book data from Google Books API:', error);
+   
+  }
+
+  
+  try {
+    const sql = 'INSERT INTO books (title, author, review, coverImage) VALUES (?, ?, ?, ?)';
+    db.run(sql, [title, author, review, coverImage], function (err) {
+      if (err) {
+        console.error('Error inserting book into database:', err.message);
+        return res.status(500).send('Error inserting book into database.');
+      }
+
+      
+      res.status(201).json({
+        id: this.lastID, 
+        title,
+        author,
+        review,
+        coverImage,
+      });
+    });
+  } catch (err) {
+    console.error('Error adding book to database:', err);
+    res.status(500).send('Failed to add book to the database.');
+  }
 };
 
-// Atualizar um livro existente
-export const updateBook = (req: Request, res: Response) => {
+export const updateBook = async (req: Request, res: Response) => {
+  const { title, author, review } = req.body;
   const { id } = req.params;
-  const { title, author, review } = req.body;
-  db.run('UPDATE books SET title = ?, author = ?, review = ? WHERE id = ?', [title, author, review, id], function(err) {
-    if (err) {
-      res.status(500).send(err.message);
-    } else {
-      res.json({ id, title, author, review });
+
+  let coverImage: string | null = null;
+
+  try {
+    
+    const googleBooksResponse = await axios.get(`${GOOGLE_BOOKS_API_URL}${encodeURIComponent(title)}`);
+    
+    if (googleBooksResponse.data.items && googleBooksResponse.data.items.length > 0) {
+      const bookData = googleBooksResponse.data.items[0];
+    
+      coverImage = bookData.volumeInfo.imageLinks?.thumbnail || null;
     }
-  });
+  } catch (error) {
+    console.error('Error fetching book data from Google Books API:', error);
+    
+  }
+
+  
+  try {
+    const sql = `
+      UPDATE books 
+      SET title = ?, author = ?, review = ?, coverImage = ? 
+      WHERE id = ?
+    `;
+    db.run(sql, [title, author, review, coverImage, id], function (err) {
+      if (err) {
+        console.error('Error updating book in database:', err.message);
+        return res.status(500).send('Error updating book in database.');
+      }
+
+      
+      res.json({
+        id,
+        title,
+        author,
+        review,
+        coverImage, 
+      });
+    });
+  } catch (err) {
+    console.error('Error updating book in database:', err);
+    res.status(500).send('Failed to update book in the database.');
+  }
 };
 
-// Deletar um livro
+
 export const deleteBook = (req: Request, res: Response) => {
   const { id } = req.params;
   db.run('DELETE FROM books WHERE id = ?', id, function(err) {
