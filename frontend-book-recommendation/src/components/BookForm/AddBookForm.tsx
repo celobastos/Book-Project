@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import styles from './AddBookForm.module.css';
 
 interface AddBookFormProps {
-  onSubmit: (title: string, author: string, description: string) => void;
+  onSubmit: (bookData: { title: string; author: string; description: string }) => void; // Added description
 }
 
 const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {
-  const [title, setTitle] = useState<string>('');
-  const [author, setAuthor] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (title && author) {
-      onSubmit(title, author, description);
-      // Clear form after submission
+    
+    if (title && author && description) {
+      // Call the parent onSubmit function with the book data
+      onSubmit({ title, author, description });
+
+      // Clear the form fields after submission
       setTitle('');
       setAuthor('');
       setDescription('');
@@ -24,39 +27,41 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {
   return (
     <section className={styles.addBookSection}>
       <h2>Add a New Book</h2>
-      <form className={styles.addBookForm} onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.addBookForm}>
         <div className={styles.formGroup}>
-          <label htmlFor="bookTitle">Title</label>
+          <label htmlFor="title">Book Title</label>
           <input
             type="text"
-            id="bookTitle"
+            id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter book title"
             required
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="bookAuthor">Author</label>
+          <label htmlFor="author">Author</label>
           <input
             type="text"
-            id="bookAuthor"
+            id="author"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
+            placeholder="Enter author name"
             required
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="bookDescription">Description</label>
+          <label htmlFor="description">Description</label>
           <textarea
-            id="bookDescription"
+            id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter book description"
             rows={4}
-          ></textarea>
+            required
+          />
         </div>
-        <button type="submit" className={styles.submitButton}>
-          Add Book
-        </button>
+        <button type="submit" className={styles.submitButton}>Submit</button>
       </form>
     </section>
   );

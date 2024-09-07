@@ -38,14 +38,10 @@ const HomePage: React.FC = () => {
     setGoogleBook(result); 
   };
 
-  const handleCreateBook = async () => {
-    const newBook = {
-      title: 'New Book',
-      author: 'Unknown',
-    };
+  const handleCreateBook = async (bookData: { title: string; author: string; description: string }) => {
     try {
-      const createdBook = await createBook(newBook);
-      setBooks([...books, createdBook]);
+      const createdBook = await createBook(bookData);
+      setBooks((prevBooks) => [...prevBooks, createdBook]); // Add the new book to the existing list
     } catch (err) {
       setError('Failed to create book');
     }
@@ -78,37 +74,36 @@ const HomePage: React.FC = () => {
         <div className={styles.headerContent}>
           <h1>Welcome to Your Book Archive</h1>
           <p>Store and organize all your books in one place</p>
-          <button onClick={handleCreateBook} className={styles.addButton}>Add New Book</button>
+          <button onClick={() => handleCreateBook({ title: 'Sample Title', author: 'Sample Author', description: 'Sample Description' })} className={styles.addButton}>
+            Add New Book
+          </button>
         </div>
         <div className={styles.imagePlaceholder}></div>
       </header>
       
-        <section className={styles.recentlyAdded}>
-          <h2>Recently Added Books</h2>
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : (
-            <div className={styles.booksGrid}>
-              {books.slice(0, 5).map(book => (
-                <div key={book.id}>
-                
-                  <h3 className={styles.bookTitle}>{book.title}</h3>
-              
-                  <Link to={`/books/${book.id}`} className={styles.bookCard}>
-                    <img src="/path-to-book-cover-icon.png" alt={book.title} className={styles.bookIcon} />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
+      <section className={styles.recentlyAdded}>
+        <h2>Recently Added Books</h2>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <div className={styles.booksGrid}>
+            {books.slice(-5).map(book => ( // This takes the last 5 books in the array
+              <div key={book.id}>
+                <h3 className={styles.bookTitle}>{book.title}</h3>
+                <Link to={`/books/${book.id}`} className={styles.bookCard}>
+                  <img src="/path-to-book-cover-icon.png" alt={book.title} className={styles.bookIcon} />
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
-        <AddBookForm onSubmit={handleCreateBook} />
-        
+      <AddBookForm onSubmit={handleCreateBook} />
+
       <FunctionalitiesSection />
-      
     </div>
   );
 };

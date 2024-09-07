@@ -10,7 +10,7 @@ const NavBar: React.FC = () => {
         <img src={logo} alt="Logo" />
       </div>
 
-      <div className={styles.navRight}> {/* New wrapper for the nav links and search */}
+      <div className={styles.navRight}> 
         <ul className={styles.navLinks}>
           <li><Link to="/my-books">Meus Livros</Link></li>
           <li><Link to="/google-books">Google Books</Link></li>
