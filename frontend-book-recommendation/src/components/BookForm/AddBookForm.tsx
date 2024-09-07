@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './AddBookForm.module.css';
 
 interface AddBookFormProps {
-  onSubmit: (bookData: { title: string; author: string; description: string }) => void; // Added description
+  onSubmit: (bookData: { title: string; author: string; description: string }) => void; 
 }
 
 const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {

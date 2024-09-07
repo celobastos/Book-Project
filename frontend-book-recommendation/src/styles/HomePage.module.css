@@ -96,6 +96,7 @@
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
   overflow: hidden;
+  
 }
 
 .bookCard:hover {
@@ -107,10 +108,10 @@
   font-weight: bold;
   text-align: center;
   margin-bottom: 1rem;
-  white-space: nowrap;       /* Prevent text from wrapping to the next line */
-  overflow: hidden;          /* Hide any overflowed text */
-  text-overflow: ellipsis;   /* Show ellipsis (...) if text is too long */
-  width: 100%;               /* Ensure the title takes up the full width of its container */
+  white-space: nowrap;       
+  overflow: hidden;          
+  text-overflow: ellipsis;   
+  width: 100%;               
   display: block;
 }
 
