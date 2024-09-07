@@ -1,24 +1,82 @@
-/* GoogleBooksPage.module.css */
-
 .container {
-    text-align: center;
-  }
-  
-  .results {
-    margin-top: 2rem;
-  }
-  
-  .resultCard {
-    padding: 1rem;
-    border: 1px solid #ddd;
-    display: inline-block;
-    text-align: left;
-  }
-  
-  .resultCard img {
-    width: 150px;
-    height: auto;
-    display: block;
-    margin-top: 1rem;
-  }
-  
+  width: 100vw;
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.results {
+  margin-top: 2rem;
+
+}
+
+.resultCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  height: fit-content;
+  margin-bottom: 5rem;
+  width: 90%;
+}
+
+.bookImage {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  margin-right: 1.5rem;
+  margin-top: 8rem;
+}
+
+.bookDetails {
+  width: 100%;
+  height: fit-content;
+}
+
+.bookTitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.authorRating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.bookAuthor {
+  margin-right: 1rem;
+
+}
+
+
+
+.stars {
+  display: flex;
+}
+
+.filledStar {
+  color: #000000; 
+}
+
+.emptyStar {
+  color: #ddd; 
+}
+
+.fa-star {
+  margin-right: 0.2rem;
+}
