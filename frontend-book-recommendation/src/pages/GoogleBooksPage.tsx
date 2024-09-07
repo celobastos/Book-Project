@@ -26,9 +26,14 @@ const GoogleBooksPage: React.FC = () => {
     );
   };
 
+
+  function handleBookClick(book: any): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <div className={styles.container}>
-      <NavBar />
+      <NavBar onBookClick={handleBookClick}  />
       <h1 className={styles.title}>Google Books Search</h1>
       <GoogleSearchBar onResults={handleSearchResults} />
 

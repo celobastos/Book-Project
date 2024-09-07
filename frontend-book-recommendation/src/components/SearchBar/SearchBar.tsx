@@ -9,27 +9,31 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = React.useState('');
 
   const handleSearch = () => {
-    if (searchQuery.trim()) { 
-      onSearch(searchQuery); // Trigger search with the entered query
+    if (searchQuery.trim()) {
+      onSearch(searchQuery); // Executa a busca
     }
   };
 
+  // Adicione o evento para a tecla Enter
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSearch(); // Trigger search on Enter key press
+      handleSearch(); // Aciona a busca ao pressionar Enter
     }
   };
 
   return (
-    <div className={styles.searchBar}>
+    <div className={styles.searchContainer}>
       <input
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        onKeyPress={handleKeyPress}
-        placeholder="Search for a book..."
+        onKeyPress={handleKeyPress} 
+        placeholder="Pesquise..."
+        className={styles.searchInput}
       />
-      <button onClick={handleSearch}>Search</button>
+      <button type="submit" onClick={handleSearch} className={styles.searchButton}>
+        <i className="fa fa-search"></i>
+      </button>
     </div>
   );
 };

@@ -80,7 +80,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <NavBar />
+      <NavBar onBookClick={handleBookClick}  />
 
       <header className={styles.header}>
         <div className={styles.headerContent}>

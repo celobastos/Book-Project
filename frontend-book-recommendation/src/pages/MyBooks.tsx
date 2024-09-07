@@ -74,7 +74,7 @@ const MyBooks: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <NavBar />
+      <NavBar onBookClick={handleBookClick}  />
 
       <section className={styles.bookSection}>
         <h1 className={styles.title}>Minha Coleção de Livros</h1>
