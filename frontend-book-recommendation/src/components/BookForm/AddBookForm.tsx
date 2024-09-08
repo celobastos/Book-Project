@@ -2,25 +2,33 @@ import React, { useState } from 'react';
 import styles from './AddBookForm.module.css';
 
 interface AddBookFormProps {
-  onSubmit: (bookData: { title: string; author: string; description: string }) => void; 
+  onSubmit: (bookData: { title: string; author: string; description: string }) => void;
 }
 
 const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // For success message
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (title && author && description) {
-      // Call the parent onSubmit function with the book data
       onSubmit({ title, author, description });
 
-      // Clear the form fields after submission
+      // Reset fields
       setTitle('');
       setAuthor('');
       setDescription('');
+
+      // Show success message
+      setShowSuccessMessage(true);
+
+      // Hide success message after 3 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
     }
   };
 
@@ -63,6 +71,13 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {
         </div>
         <button type="submit" className={styles.submitButton}>Submit</button>
       </form>
+
+      {/* Success message */}
+      {showSuccessMessage && (
+        <div className={styles.successMessage}>
+          Book added successfully!
+        </div>
+      )}
     </section>
   );
 };

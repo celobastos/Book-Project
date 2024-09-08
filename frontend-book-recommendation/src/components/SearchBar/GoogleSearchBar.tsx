@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './SearchBar.module.css';
+import styles from './GoogleSearchBar.module.css';
 
 interface GoogleSearchBarProps {
   onResults: (result: any) => void;
@@ -31,16 +31,20 @@ const GoogleSearchBar: React.FC<GoogleSearchBarProps> = ({ onResults }) => {
   };
 
   return (
-    <div className={styles.searchBar}>
+    <div className={styles.searchContainer}>
       <input
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyPress={handleKeyPress}
-        placeholder="Search for book recommendations..."
+        placeholder="Pesquise por livros no google..."
+        className={styles.googleSearchInput}
       />
-      <button onClick={handleSearch}>Search</button>
+      <button onClick={handleSearch} className={styles.googleSearchButton}>
+        <i className="fa fa-search"></i>
+      </button>
     </div>
+  
   );
 };
 

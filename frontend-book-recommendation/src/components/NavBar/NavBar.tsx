@@ -20,8 +20,8 @@ const NavBar: React.FC<{ onBookClick: (book: any) => void }> = ({ onBookClick })
   };
 
   const handleBookClick = (book: any) => {
-    onBookClick(book); // Aciona a função para abrir o modal do livro selecionado
-    setShowDropdown(false); // Esconde o dropdown
+    onBookClick(book); 
+    setShowDropdown(false); 
   };
 
   return (

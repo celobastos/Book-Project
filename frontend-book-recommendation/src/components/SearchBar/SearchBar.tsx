@@ -10,14 +10,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      onSearch(searchQuery); // Executa a busca
+      onSearch(searchQuery); 
     }
   };
 
-  // Adicione o evento para a tecla Enter
+
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSearch(); // Aciona a busca ao pressionar Enter
+      handleSearch(); 
     }
   };
 

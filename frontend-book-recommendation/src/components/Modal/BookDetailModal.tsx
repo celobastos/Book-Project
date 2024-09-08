@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './BookDetailModal.module.css';
+import noDataImage from '../../assets/noData.png';
 
 interface BookDetailModalProps {
   book: any;
@@ -13,10 +14,18 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({ book, onClose, onEdit
   const [editedTitle, setEditedTitle] = useState(book.title);
   const [editedAuthor, setEditedAuthor] = useState(book.author);
   const [editedReview, setEditedReview] = useState(book.review);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleSave = () => {
     onEdit({ title: editedTitle, author: editedAuthor, review: editedReview });
-    setIsEditing(false);
+
+   
+    setShowSuccessMessage(true);
+    
+    
+    setTimeout(() => setShowSuccessMessage(false), 3000);
+    
+    
   };
 
   return (
@@ -26,7 +35,7 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({ book, onClose, onEdit
         <div className={styles.modalBody}>
           <div className={styles.bookImageContainer}>
             <img
-              src={book.coverImage || '/path-to-book-cover-icon.png'}
+              src={book.coverImage || noDataImage}
               alt={book.title}
               className={styles.bookImage}
             />
@@ -64,6 +73,7 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({ book, onClose, onEdit
             )}
           </div>
         </div>
+
         <div className={styles.modalActions}>
           {isEditing ? (
             <>
@@ -77,6 +87,10 @@ const BookDetailModal: React.FC<BookDetailModalProps> = ({ book, onClose, onEdit
             </>
           )}
         </div>
+
+        {showSuccessMessage && (
+          <div className={styles.successMessage}>Book updated successfully!</div>
+        )}
       </div>
     </div>
   );
