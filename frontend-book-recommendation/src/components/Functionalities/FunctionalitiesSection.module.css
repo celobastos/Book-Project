@@ -23,7 +23,7 @@
   
   .gridItem {
     background-color: #fff;
-    color: #333;
+    color: #ffffff;
     padding: 2rem;
     border-radius: 10px;
     text-align: left;
@@ -31,7 +31,7 @@
   }
   
   .iconContainer {
-    background-color: #f57300; 
+    background-color: #000000; 
     padding: 1rem;
     border-radius: 50%;
     display: inline-block;
@@ -41,7 +41,7 @@
   .gridItem h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #4e0037; 
+    color: #000000; 
   }
   
   .gridItem p {
@@ -54,6 +54,11 @@
     .gridContainer {
       grid-template-columns: 1fr;
     }
+    .functionalitiesSection{
+      width: 200vw;
+    }
+    
+    
   }
   
   @media (max-width: 480px) {

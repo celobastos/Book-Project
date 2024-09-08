@@ -94,6 +94,9 @@
   .booksGrid {
     grid-template-columns: repeat(2, 1fr); 
   }
+  .bookSection{
+    width: 240vw;
+  }
 }
 
 @media (max-width: 480px) {

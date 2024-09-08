@@ -1,4 +1,3 @@
-/* Container for the entire navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -17,8 +16,7 @@
     overflow-x: hidden;
   }
   
-  /* Logo section */
-  .logo {
+    .logo {
     display: flex;
     align-items: center;
     padding-left: 2rem;
@@ -114,10 +112,19 @@
 .dropdownItem:hover {
   background-color: #f0f0f0;
 }
-/* Dropdown when no results are found */
+
 .noResults {
   padding: 0.5rem;
-  color: #000000; /* Highlight with red */
+  color: #000000; 
   text-align: center;
   font-weight: bold;
+}
+@media (max-width: 768px){
+  .navbar{
+    width: 240vw;
+  }
+
+}
+@media (max-width: 480px) {
+  
 }

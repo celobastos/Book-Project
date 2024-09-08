@@ -35,3 +35,12 @@
   .searchButton i {
     font-size: 1rem;
   }
+  @media (max-width:768px) {
+    .googleSearchInput{
+      margin-left: 22rem;
+    }
+    .googleSearchButton{
+      right: 33rem;
+    }
+    
+  }

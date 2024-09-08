@@ -80,3 +80,9 @@
 .fa-star {
   margin-right: 0.2rem;
 }
+
+@media (max-width: 768px){
+  .container{
+    width: 240vw;
+  }
+}
