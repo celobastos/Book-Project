@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { getBooks, updateBook, deleteBook } from '../services/booksService';
 import NavBar from '../components/NavBar/NavBar';
 import styles from '../styles/MyBooks.module.css';
@@ -7,17 +7,23 @@ import BookDetailModal from '../components/Modal/BookDetailModal'; // Import the
 
 const MyBooks: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
+  const [displayedBooks, setDisplayedBooks] = useState<any[]>([]); // Books to display with pagination
   const [selectedBook, setSelectedBook] = useState<any | null>(null); // State for the selected book
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1); // Page state
+  const [hasMore, setHasMore] = useState<boolean>(true); // To keep track if more data is available
+  const booksPerPage = 10; // Number of books to display per "page"
 
   // Fetch all books once when the component mounts
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         setLoading(true);
-        const data = await getBooks(); // Fetch all books
-        setBooks(data);
+        const data = await getBooks(); // Fetch all books at once
+        setBooks(data); // Store all books in state
+        setDisplayedBooks(data.slice(0, booksPerPage)); // Display the first "page" of books
+        setHasMore(data.length > booksPerPage); // Check if there are more books to load
       } catch (err) {
         setError('Failed to fetch books.');
       } finally {
@@ -26,7 +32,33 @@ const MyBooks: React.FC = () => {
     };
 
     fetchBooks();
-  }, []); // Empty dependency array ensures this runs once on mount
+  }, []);
+
+  // Load more books as the user scrolls down
+  const loadMoreBooks = useCallback(() => {
+    if (!loading && hasMore) {
+      const nextPage = page + 1;
+      const newBooks = books.slice(0, nextPage * booksPerPage);
+      setDisplayedBooks(newBooks);
+      setPage(nextPage);
+      setHasMore(newBooks.length < books.length); // Stop loading more if we've displayed all books
+    }
+  }, [books, hasMore, loading, page]);
+
+  // Infinite Scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 200 && hasMore && !loading
+      ) {
+        loadMoreBooks();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading, hasMore, loadMoreBooks]);
 
   // Handler to open the modal with the selected book
   const handleBookClick = (book: any) => {
@@ -51,6 +83,7 @@ const MyBooks: React.FC = () => {
         const updatedBookResponse = await updateBook(selectedBook.id, updatedData);
 
         setBooks(books.map(book => (book.id === selectedBook.id ? updatedBookResponse : book)));
+        setDisplayedBooks(books.map(book => (book.id === selectedBook.id ? updatedBookResponse : book)));
 
         handleCloseModal();
       } catch (err) {
@@ -65,6 +98,7 @@ const MyBooks: React.FC = () => {
       try {
         await deleteBook(selectedBook.id);
         setBooks(books.filter(book => book.id !== selectedBook.id));
+        setDisplayedBooks(displayedBooks.filter(book => book.id !== selectedBook.id));
         handleCloseModal();
       } catch (err) {
         setError('Failed to delete book');
@@ -74,7 +108,7 @@ const MyBooks: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <NavBar onBookClick={handleBookClick}  />
+      <NavBar onBookClick={handleBookClick} />
 
       <section className={styles.bookSection}>
         <h1 className={styles.title}>Minha Coleção de Livros</h1>
@@ -82,17 +116,17 @@ const MyBooks: React.FC = () => {
         {error && <p>{error}</p>}
         {!loading && books.length === 0 && <p>Nenhum livro encontrado.</p>}
         <div className={styles.booksGrid}>
-          {books.map((book) => (
+          {displayedBooks.map((book) => (
             <div key={book.id}>
               <h3 className={styles.bookTitle}>{book.title}</h3>
               <div
                 className={styles.bookCard}
                 onClick={() => handleBookClick(book)}
               >
-                <img 
-                  src={book.coverImage ? book.coverImage : noDataImage} 
-                  alt={book.title} 
-                  className={styles.bookIcon} 
+                <img
+                  src={book.coverImage ? book.coverImage : noDataImage}
+                  alt={book.title}
+                  className={styles.bookIcon}
                 />
               </div>
             </div>
@@ -107,6 +141,13 @@ const MyBooks: React.FC = () => {
           onEdit={handleEditBook}
           onDelete={handleDeleteBook}
         />
+      )}
+
+      {/* Notificação visual para quando todos os livros forem carregados */}
+      {!hasMore && (
+        <div className={styles.allBooksLoadedMessage}>
+          <p>Todos os livros foram carregados.</p>
+        </div>
       )}
     </div>
   );

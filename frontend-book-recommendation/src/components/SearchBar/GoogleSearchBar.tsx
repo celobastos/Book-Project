@@ -37,7 +37,7 @@ const GoogleSearchBar: React.FC<GoogleSearchBarProps> = ({ onResults }) => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyPress={handleKeyPress}
-        placeholder="Pesquise por livros no google..."
+        placeholder="Pesquise por livros no google..  ."
         className={styles.googleSearchInput}
       />
       <button onClick={handleSearch} className={styles.googleSearchButton}>

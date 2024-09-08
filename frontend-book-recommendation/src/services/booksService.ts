@@ -9,6 +9,16 @@ export const getBooks = async (query: string = '') => {
     return data;
   };
 
+  export const getAllBooks = async (page: number = 1, limit: number = 10) => {
+    const response = await fetch(`http://localhost:5000/books?page=${page}&limit=${limit}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch books');
+    }
+    const data = await response.json();
+    return data;
+  };
+  
+
 export const createBook = async (bookData: any) => {
   try {
     const response = await api.post('/books', bookData);

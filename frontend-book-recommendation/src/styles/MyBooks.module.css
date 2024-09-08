@@ -56,6 +56,15 @@
   line-height: 1.5;
   text-align: center; 
 }
+.allBooksLoadedMessage {
+  text-align: center;
+  padding: 1rem;
+  background-color: #f4f4f4;
+  color: #333;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 2rem;
+}
+
 
 @media (max-width: 1024px) {
   .booksGrid {
