@@ -4,15 +4,18 @@ import NavBar from '../components/NavBar/NavBar';
 import styles from '../styles/MyBooks.module.css';
 import noDataImage from '../assets/noData.png';
 import BookDetailModal from '../components/Modal/BookDetailModal'; // Import the modal
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner'; // Import a loading spinner component
 
 const MyBooks: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
   const [displayedBooks, setDisplayedBooks] = useState<any[]>([]); // Books to display with pagination
   const [selectedBook, setSelectedBook] = useState<any | null>(null); // State for the selected book
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false); // Separate state for infinite scroll loading
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1); // Page state
   const [hasMore, setHasMore] = useState<boolean>(true); // To keep track if more data is available
+  const [allBooksLoadedMessage, setAllBooksLoadedMessage] = useState<boolean>(false); // State for the all-books-loaded message
   const booksPerPage = 10; // Number of books to display per "page"
 
   // Fetch all books once when the component mounts
@@ -36,21 +39,29 @@ const MyBooks: React.FC = () => {
 
   // Load more books as the user scrolls down
   const loadMoreBooks = useCallback(() => {
-    if (!loading && hasMore) {
+    if (!loadingMore && hasMore) {
+      setLoadingMore(true); // Start the loading animation for more books
       const nextPage = page + 1;
       const newBooks = books.slice(0, nextPage * booksPerPage);
       setDisplayedBooks(newBooks);
       setPage(nextPage);
       setHasMore(newBooks.length < books.length); // Stop loading more if we've displayed all books
+
+      if (newBooks.length >= books.length) {
+        setAllBooksLoadedMessage(true); // Show message when all books are loaded
+        setTimeout(() => setAllBooksLoadedMessage(false), 3000); // Hide the message after 3 seconds
+      }
+
+      setLoadingMore(false); // Stop the loading animation
     }
-  }, [books, hasMore, loading, page]);
+  }, [books, hasMore, loadingMore, page]);
 
   // Infinite Scroll
   useEffect(() => {
     const handleScroll = () => {
       if (
         window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 200 && hasMore && !loading
+        document.documentElement.offsetHeight - 200 && hasMore && !loadingMore
       ) {
         loadMoreBooks();
       }
@@ -58,7 +69,7 @@ const MyBooks: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore, loadMoreBooks]);
+  }, [loadingMore, hasMore, loadMoreBooks]);
 
   // Handler to open the modal with the selected book
   const handleBookClick = (book: any) => {
@@ -112,7 +123,7 @@ const MyBooks: React.FC = () => {
 
       <section className={styles.bookSection}>
         <h1 className={styles.title}>Minha Coleção de Livros</h1>
-        {loading && <p>Carregando livros...</p>}
+        {loading && <LoadingSpinner />} {/* Spinner while loading */}
         {error && <p>{error}</p>}
         {!loading && books.length === 0 && <p>Nenhum livro encontrado.</p>}
         <div className={styles.booksGrid}>
@@ -144,7 +155,7 @@ const MyBooks: React.FC = () => {
       )}
 
       {/* Notificação visual para quando todos os livros forem carregados */}
-      {!hasMore && (
+      {allBooksLoadedMessage && (
         <div className={styles.allBooksLoadedMessage}>
           <p>Todos os livros foram carregados.</p>
         </div>
