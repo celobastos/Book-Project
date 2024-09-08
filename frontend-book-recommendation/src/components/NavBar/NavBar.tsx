@@ -8,14 +8,14 @@ import { getBooks } from '../../services/booksService';
 const NavBar: React.FC<{ onBookClick: (book: any) => void }> = ({ onBookClick }) => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [noResults, setNoResults] = useState(false); // Track if there are no results
+  const [noResults, setNoResults] = useState(false); 
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   const handleSearch = async (query: string) => {
     try {
       const results = await getBooks(query);
       setSearchResults(results);
-      setNoResults(results.length === 0); // Check if no results
+      setNoResults(results.length === 0); 
       setShowDropdown(true);
     } catch (error) {
       console.error('Error fetching search results:', error);

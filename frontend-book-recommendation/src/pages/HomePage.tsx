@@ -6,6 +6,7 @@ import FunctionalitiesSection from '../components/Functionalities/Functionalitie
 import BookDetailModal from '../components/Modal/BookDetailModal';
 import styles from '../styles/HomePage.module.css';
 import noDataImage from '../assets/noData.png';
+import fotoCapa from '../assets/fotoCapa.jpg';
 
 const HomePage: React.FC = () => {
   const [books, setBooks] = useState<any[]>([]);
@@ -91,17 +92,19 @@ const HomePage: React.FC = () => {
 
       <header className={styles.header}>
         <div className={styles.headerContent}>
-          <h1>Welcome to Your Book Archive</h1>
-          <p>Store and organize all your books in one place</p>
+          <h1>Bem-vindo ao seu arquivo de livros</h1>
+          <p>Guarde e organize seus livros em um lugar só</p>
           <button onClick={handleScrollToForm} className={styles.addButton}>
-            Add New Book
+            Adicionar Livro
           </button>
         </div>
-        <div className={styles.imagePlaceholder}></div>
+        <div className={styles.imagePlaceholder}>
+          <img src={fotoCapa} alt="Foto Capa" className={styles.fotoCapa} />
+        </div>
       </header>
 
       <section className={styles.recentlyAdded}>
-        <h2>Recently Added Books</h2>
+        <h2>Recentemente Adicionados</h2>
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
@@ -127,7 +130,6 @@ const HomePage: React.FC = () => {
         )}
       </section>
 
-      {/* Section to which we will scroll */}
       <section id="addBookSection" className={styles.addBookSection}>
         <AddBookForm onSubmit={handleCreateBook} />
       </section>

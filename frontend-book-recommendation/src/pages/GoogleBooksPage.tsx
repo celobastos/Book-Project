@@ -34,7 +34,7 @@ const GoogleBooksPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <NavBar onBookClick={handleBookClick}  />
-      <h1 className={styles.title}>Google Books Search</h1>
+      <h1 className={styles.title}>Pesquisa no Google Books</h1>
       <GoogleSearchBar onResults={handleSearchResults} />
 
       {searchResults && (
@@ -44,10 +44,10 @@ const GoogleBooksPage: React.FC = () => {
             <div className={styles.bookDetails}>
               <h3 className={styles.bookTitle}>{searchResults.title}</h3>
               <div className={styles.authorRating}>
-                <p className={styles.bookAuthor}><strong>Author:</strong> {searchResults.author}</p>
+                <p className={styles.bookAuthor}><strong>Autor:</strong> {searchResults.author}</p>
                 {searchResults.averageRating && renderStars(searchResults.averageRating)}
               </div>
-              <p className={styles.bookDescription}><strong>Description:</strong> {searchResults.description}</p>
+              <p className={styles.bookDescription}><strong>Descrição:</strong> {searchResults.description}</p>
             </div>
           </div>
         </div>

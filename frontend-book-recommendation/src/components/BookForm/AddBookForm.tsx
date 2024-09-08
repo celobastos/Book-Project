@@ -34,37 +34,37 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {
 
   return (
     <section className={styles.addBookSection}>
-      <h2>Add a New Book</h2>
+      <h2>Adicione um livro</h2>
       <form onSubmit={handleSubmit} className={styles.addBookForm}>
         <div className={styles.formGroup}>
-          <label htmlFor="title">Book Title</label>
+          <label htmlFor="title">Título</label>
           <input
             type="text"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter book title"
+            placeholder="Digite o título"
             required
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="author">Author</label>
+          <label htmlFor="author">Autor</label>
           <input
             type="text"
             id="author"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            placeholder="Enter author name"
+            placeholder="Digite o nome autor"
             required
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description">Resenha</label>
           <textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter book description"
+            placeholder="Digite sua resenha sobre o livro"
             rows={4}
             required
           />
@@ -75,7 +75,7 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {
       {/* Success message */}
       {showSuccessMessage && (
         <div className={styles.successMessage}>
-          Book added successfully!
+        Livro adicionado com sucesso!
         </div>
       )}
     </section>

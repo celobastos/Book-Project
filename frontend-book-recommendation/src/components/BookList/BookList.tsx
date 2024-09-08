@@ -27,8 +27,8 @@ const BookList: React.FC<BookListProps> = ({ books, onUpdate, onDelete }) => {
             <p>{book.author}</p>
             <p>{book.description}</p>
             <p>{book.price}</p>
-            <button onClick={() => onUpdate(book.id)}>Update</button>
-            <button onClick={() => onDelete(book.id)}>Delete</button>
+            <button onClick={() => onUpdate(book.id)}>Atualizar</button>
+            <button onClick={() => onDelete(book.id)}>Deletar</button>
           </div>
         </div>
       ))}
