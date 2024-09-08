@@ -10,7 +10,6 @@ const GoogleBooksPage: React.FC = () => {
     setSearchResults(results);
   };
 
-  // Function to render star rating
   const renderStars = (rating: number) => {
     const totalStars = 5;
     return (

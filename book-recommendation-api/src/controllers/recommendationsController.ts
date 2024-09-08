@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { getBookRecommendations } from '../services/googleBooksService';
 
-// Buscar recomendações de livros na API do Google Books
+
 export const getRecommendations = async (req: Request, res: Response) => {
   const { query } = req.query;
 
@@ -16,10 +16,10 @@ export const getRecommendations = async (req: Request, res: Response) => {
       return res.status(404).send('No books found');
     }
 
-    // Pegar apenas o primeiro resultado
+    
     const firstResult = recommendations[0];
 
-    // Filtrar as informações relevantes
+
     const filteredResult = {
       title: firstResult.volumeInfo.title,
       author: firstResult.volumeInfo.authors?.join(', ') || 'Unknown Author',
@@ -32,7 +32,7 @@ export const getRecommendations = async (req: Request, res: Response) => {
       image: firstResult.volumeInfo.imageLinks?.thumbnail || 'No image available.'
     };
 
-    // Retornar apenas o primeiro livro filtrado
+   
     res.json(filteredResult);
   } catch (error: any) {
     res.status(500).send(error.message);
