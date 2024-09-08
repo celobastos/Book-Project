@@ -54,10 +54,9 @@
   }
   
   .navLinks a:hover {
-    color: #007bff;
+    color: #8b8a8a;
   }
   
-  /* Search bar styling */
   .searchContainer {
     display: flex;
     position: relative;
@@ -114,4 +113,11 @@
 
 .dropdownItem:hover {
   background-color: #f0f0f0;
+}
+/* Dropdown when no results are found */
+.noResults {
+  padding: 0.5rem;
+  color: #000000; /* Highlight with red */
+  text-align: center;
+  font-weight: bold;
 }
