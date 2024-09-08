@@ -78,6 +78,13 @@ const HomePage: React.FC = () => {
     }
   };
 
+  const handleScrollToForm = () => {
+    const formSection = document.getElementById('addBookSection');
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className={styles.container}>
       <NavBar onBookClick={handleBookClick}  />
@@ -86,7 +93,7 @@ const HomePage: React.FC = () => {
         <div className={styles.headerContent}>
           <h1>Welcome to Your Book Archive</h1>
           <p>Store and organize all your books in one place</p>
-          <button onClick={() => handleCreateBook({ title: 'Sample Title', author: 'Sample Author', description: 'Sample Description' })} className={styles.addButton}>
+          <button onClick={handleScrollToForm} className={styles.addButton}>
             Add New Book
           </button>
         </div>
@@ -108,20 +115,23 @@ const HomePage: React.FC = () => {
                   className={styles.bookCard}
                   onClick={() => handleBookClick(book)}
                 >
-                <img 
-                  src={book.coverImage ? book.coverImage : noDataImage} 
-                  alt={'No Data'} 
-                  className={styles.bookIcon} 
-                />
-              </div>
-
+                  <img 
+                    src={book.coverImage ? book.coverImage : noDataImage} 
+                    alt={'No Data'} 
+                    className={styles.bookIcon} 
+                  />
+                </div>
               </div>
             ))}
           </div>
         )}
       </section>
 
-      <AddBookForm onSubmit={handleCreateBook} />
+      {/* Section to which we will scroll */}
+      <section id="addBookSection" className={styles.addBookSection}>
+        <AddBookForm onSubmit={handleCreateBook} />
+      </section>
+      
       <FunctionalitiesSection />
 
       {selectedBook && (
