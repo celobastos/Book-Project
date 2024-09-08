@@ -9,23 +9,40 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // For success message
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [errors, setErrors] = useState({ author: '', description: '' });
+
+  // Validação de tipo de entrada
+  const validateAuthor = (author: string) => /^[a-zA-Z\s]+$/.test(author);
+  const validateDescription = (description: string) => description.length <= 500;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (title && author && description) {
+
+    let isValid = true;
+    const newErrors = { author: '', description: '' };
+
+    // Validações
+    if (!validateAuthor(author)) {
+      newErrors.author = 'O nome do autor deve conter apenas letras.';
+      isValid = false;
+    }
+
+    if (!validateDescription(description)) {
+      newErrors.description = 'A resenha não pode ter mais de 500 caracteres.';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (isValid) {
       onSubmit({ title, author, description });
 
-      // Reset fields
       setTitle('');
       setAuthor('');
       setDescription('');
-
-      // Show success message
       setShowSuccessMessage(true);
 
-      // Hide success message after 3 seconds
       setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000);
@@ -54,9 +71,10 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {
             id="author"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            placeholder="Digite o nome autor"
+            placeholder="Digite o nome do autor"
             required
           />
+          {errors.author && <p className={styles.error}>{errors.author}</p>}
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="description">Resenha</label>
@@ -66,16 +84,17 @@ const AddBookForm: React.FC<AddBookFormProps> = ({ onSubmit }) => {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Digite sua resenha sobre o livro"
             rows={4}
+            maxLength={500} 
             required
           />
+          {errors.description && <p className={styles.error}>{errors.description}</p>}
         </div>
         <button type="submit" className={styles.submitButton}>Submit</button>
       </form>
 
-      {/* Success message */}
       {showSuccessMessage && (
         <div className={styles.successMessage}>
-        Livro adicionado com sucesso!
+          Livro adicionado com sucesso!
         </div>
       )}
     </section>
